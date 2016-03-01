@@ -1,4 +1,4 @@
-=== WooCommerce Complete Address by CEP ===
+# WooCommerce Complete Address by CEP #
 Contributors: claudiosanches, matheuscl
 Donate link: http://claudiosmweb.com/doacoes/
 Tags: woocommerce, cep, brazil
@@ -8,7 +8,7 @@ Stable tag: 0.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-== Description ==
+## Description ##
 
 ### Add Complete Address by CEP feature ###
 
@@ -24,55 +24,55 @@ Agora após preencher o CEP o endereço preenche sozinho, olha que maravilha.
 
 Este plugin até o momento se baseia apenas em uma API de busca de CEP, sendo ela a [postmon](http://postmon.com.br/)
 
-= Instalação: =
+# Instalação: #
 
 Por enquanto fora do repositório oficial do WordPress, então vai ter que baixar o [zip](https://github.com/claudiosmweb/woocommerce-complete-address-by-cep/archive/master.zip) e instalar via FTP ou pelo instalador do WordPress.
 
-= Compatibilidade =
+# Compatibilidade #
 
 Compatível com as versões 2.5.x do WooCommerce.
 
-= Dúvidas? =
+# Dúvidas? #
 
 Você pode esclarecer suas dúvidas usando:
 
 * Por enquanto só criando uma [issue](https://github.com/claudiosmweb/woocommerce-complete-address-by-cep/issues) mesmo...
 
-== Installation ==
+## Installation ##
 
 * Upload plugin files to your plugins folder, or install using WordPress built-in Add New Plugin installer;
 * Activate the plugin;
 
 ### Instalação e configuração em Português: ###
 
-= Instalação do plugin: =
+# Instalação do plugin: #
 
 * Envie os arquivos do plugin para a pasta wp-content/plugins, ou instale usando o instalador de plugins do WordPress.
 * Ative o plugin.
 
-== Frequently Asked Questions ==
+## Frequently Asked Questions ##
 
-= What is the plugin license? =
+# What is the plugin license? #
 
 * This plugin is released under a GPL license.
 
 ### FAQ em Português: ###
 
-= Qual é a licença do plugin? =
+# Qual é a licença do plugin? #
 
 Este plugin esta licenciado como GPL.
 
-= O que eu preciso para utilizar este plugin? =
+# O que eu preciso para utilizar este plugin? #
 
 * Ter instalado o plugin WooCommerce.
 
-= Funciona para todos os países? =
+# Funciona para todos os países? #
 
 No momento o plugin funciona apenas para Brasil, mas sinta-se livre para contribuir.
 
-== Changelog ==
+## Changelog ##
 
-= 0.0.1 =
+### 0.0.1 ###
 
 * Versão beta do plugin.
 

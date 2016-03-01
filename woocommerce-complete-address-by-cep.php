@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( 'WC_Complete_Address_By_Cep' ) ) :
 
 /**
- * WooCommerce Correios main class.
+ * WooCommerce Complete Address by CEP main class.
  */
 class WC_Complete_Address_By_Cep {
 
