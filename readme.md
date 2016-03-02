@@ -4,7 +4,7 @@ Donate link: http://claudiosmweb.com/doacoes/
 Tags: woocommerce, cep, brazil
 Requires at least: 4.4
 Tested up to: 4.4
-Stable tag: 0.0.1
+Stable tag: 0.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,11 +72,15 @@ No momento o plugin funciona apenas para Brasil, mas sinta-se livre para contrib
 
 ## Changelog ##
 
+### 0.0.2 ###
+
+* Added support for shipping address.
+
 ### 0.0.1 ###
 
 * Versão beta do plugin.
 
 # TO DO LIST #
 - [ ] Change plugin name, `woocommerce-*` is not allowed
-- [ ] Refactor JavaScript code to accept other API's and countries easier
+- [ ] Refactor JavaScript code to accept other API's and countries(?) easier
 - [ ] Suport for gulp

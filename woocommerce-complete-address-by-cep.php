@@ -3,9 +3,9 @@
  * Plugin Name: WooCommerce Complete Address by CEP
  * Plugin URI: https://github.com/claudiosmweb/woocommerce-complete-address-by-cep
  * Description: Completar endereço a partir do CEP
- * Author: Claudio Sanches, Matheus Lopes
- * Author URI: http://claudiosmweb.com/, http://matheuscl.com/
- * Version: 0.0.1
+ * Author: Claudio Sanches
+ * Author URI: http://claudiosmweb.com/
+ * Version: 0.0.2
  * License: GPLv2 or later
  * Text Domain: woocommerce-complete-address-by-cep
  * Domain Path: /languages/
