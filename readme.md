@@ -1,4 +1,4 @@
-# WooCommerce Complete Address by CEP #
+# WC Brazilian Postcodes #
 
 Contributors: claudiosanches, matheuscl
 
@@ -10,7 +10,7 @@ Requires at least: 4.4
 
 Tested up to: 4.4
 
-Stable tag: 0.0.2
+Stable tag: 0.0.3
 
 License: GPLv2 or later
 
@@ -18,19 +18,19 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 ## Description ##
 
-### Add Complete Address by CEP feature ###
+### Add complete address based on postcode feature ###
 
-This plugin adds Complete Address by CEP to WooCommerce.
+This plugin enable complete address based on postcode to WooCommerce.
 
 WooCommerce must be installed and active.
 
 Note: This plugin works only for Brazil.
 
-### Descrição em Português: ###
+## Descrição em Português: ##
 
 Agora após preencher o CEP o endereço preenche sozinho, olha que maravilha.
 
-Este plugin até o momento se baseia apenas em uma API de busca de CEP, sendo ela a [postmon](http://postmon.com.br/)
+Este plugin até o momento se baseia apenas em uma API de busca de CEP, sendo ela a [postmon](http://postmon.com.br/).
 
 # Instalação: #
 
@@ -58,27 +58,35 @@ Você pode esclarecer suas dúvidas usando:
 * Envie os arquivos do plugin para a pasta wp-content/plugins, ou instale usando o instalador de plugins do WordPress.
 * Ative o plugin.
 
-## Frequently Asked Questions ##
+# Frequently Asked Questions #
 
-# What is the plugin license? #
+### What is the plugin license? ###
 
 * This plugin is released under a GPL license.
 
-### FAQ em Português: ###
+### This plugin works in my country? ###
 
-# Qual é a licença do plugin? #
+* This plugin only work for brazilian postcodes, feel free to colaborate.
+
+# FAQ em Português: #
+
+### Qual é a licença do plugin? ###
 
 Este plugin esta licenciado como GPL.
 
-# O que eu preciso para utilizar este plugin? #
+### O que eu preciso para utilizar este plugin? ###
 
 * Ter instalado o plugin WooCommerce.
 
-# Funciona para todos os países? #
+### Funciona para todos os países? ###
 
-No momento o plugin funciona apenas para Brasil, mas sinta-se livre para contribuir.
+No momento o plugin funciona apenas para Brasil, sinta-se livre para contribuir.
 
-## Changelog ##
+# Changelog #
+
+### 0.0.3 ###
+
+* Plugin name has been changed to `wc-brazilian-postcodes` and all occurrences of old name has been changed.
 
 ### 0.0.2 ###
 
@@ -89,6 +97,6 @@ No momento o plugin funciona apenas para Brasil, mas sinta-se livre para contrib
 * Versão beta do plugin.
 
 # TO DO LIST #
-- [ ] Change plugin name, `woocommerce-*` is not allowed
+- [x] Change plugin name, `woocommerce-*` is not allowed
 - [ ] Refactor JavaScript code to accept other API's and countries(?) easier
 - [ ] Suport for gulp
