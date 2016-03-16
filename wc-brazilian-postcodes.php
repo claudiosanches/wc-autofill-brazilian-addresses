@@ -99,6 +99,10 @@ class WC_Brazilian_Postcodes {
 	}
 }
 
+// Install plugin.
+include_once 'includes/class-wc-brailian-postcodes-install.php';
+register_activation_hook( __FILE__, array( 'WC_Brazilian_Postcodes_Install', 'create_database' ) );
+
 add_action( 'plugins_loaded', array( 'WC_Brazilian_Postcodes', 'get_instance' ) );
 
 endif;
