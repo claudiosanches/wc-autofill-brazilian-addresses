@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: WC Brazilian Postcodes
+ * Plugin Name: WooCommerce Brazilian Postcodes
  * Plugin URI: https://github.com/claudiosmweb/wc-brazilian-postcodes
- * Description: Autocomplete address by postcodes.
+ * Description: Autocomplete address with postcodes.
  * Author: Claudio Sanches, Matheus Lopes
  * Author URI: https://claudiosmweb.com/
  * Version: 0.0.3

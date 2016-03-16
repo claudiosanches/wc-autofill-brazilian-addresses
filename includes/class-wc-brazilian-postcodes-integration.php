@@ -44,7 +44,9 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 		}
 
 		// Actions.
-		add_action( 'woocommerce_update_options_integration_' .  $this->id, array( $this, 'process_admin_options' ) );
+		add_action( 'woocommerce_update_options_integration_' . $this->id, array( $this, 'process_admin_options' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
+		add_action( 'wc_ajax_brazilian_autocomplete_address', array( $this, 'ajax_autocomplete' ) );
 	}
 
 	/**
@@ -72,7 +74,6 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 	protected function get_address( $postcode ) {
 		global $wpdb;
 
-		$postcode = $this->sanitize_postcode( $postcode );
 		$table    = $wpdb->prefix . $this->table;
 		$address  = $wpdb->get_row( $wpdb->prepare( "
 			SELECT *
@@ -87,7 +88,6 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 				$this->save_address( (array) $address );
 			}
 		} else if ( strtotime( '+3 months', strtotime( $address->last_query ) ) < current_time( 'timestamp' ) ) {
-			$id      = $address->ID;
 			$address = $this->fetch_address( $postcode );
 
 			if ( ! is_null( $address ) ) {
@@ -129,38 +129,6 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 	}
 
 	/**
-	 * Update an address.
-	 *
-	 * @param array $address
-	 *
-	 * @return bool
-	 */
-	protected function update_address( $id, $address ) {
-		global $wpdb;
-
-		$default = array(
-			'postcode'     => '',
-			'address'      => '',
-			'city'         => '',
-			'neighborhood' => '',
-			'state'        => '',
-			'last_query'   => current_time( 'mysql' ),
-		);
-
-		$address = wp_parse_args( $address, $default );
-
-		$result = $wpdb->update(
-			$wpdb->prefix . $this->table,
-			$address,
-			array( 'ID' => $id ),
-			array( '%s', '%s', '%s', '%s', '%s', '%s' ),
-			array( '%d' )
-		);
-
-		return false !== $result;
-	}
-
-	/**
 	 * Delete an address from database.
 	 *
 	 * @return string $postcode
@@ -169,6 +137,19 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 		global $wpdb;
 
 		$wpdb->delete( $wpdb->prefix . $this->table, array( 'postcode' => $postcode ), array( '%s' ) );
+	}
+
+	/**
+	 * Update an address.
+	 *
+	 * @param array $address
+	 *
+	 * @return bool
+	 */
+	protected function update_address( $id, $address ) {
+		$this->delete_address( $address['postcode'] );
+
+		return $this->save_address( $address );
 	}
 
 	/**
@@ -225,5 +206,47 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 		$postcode = sanitize_text_field( $postcode );
 
 		return preg_replace( '([^0-9])', '', $postcode );
+	}
+
+	/**
+	 * Frontend scripts.
+	 */
+	public function frontend_scripts() {
+		if ( is_checkout() || is_account_page() ) {
+			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
+			wp_enqueue_script( $this->id, plugins_url( 'assets/js/autocomplete-address' . $suffix . '.js', plugin_dir_path( __FILE__ ) ), array( 'jquery' ), WC_Brazilian_Postcodes::VERSION, true );
+
+			wp_localize_script(
+				$this->id,
+				'wcBrazilianPostcodesParams',
+				array(
+					'url' => WC_AJAX::get_endpoint( 'brazilian_autocomplete_address' ),
+				)
+			);
+		}
+	}
+
+	/**
+	 * Ajax autocomplete endpoint.
+	 */
+	public function ajax_autocomplete() {
+		if ( empty( $_GET['postcode'] ) ) {
+			wp_send_json_error( array( 'message' => __( 'Missing postcode paramater.', 'woocommerce' ) ) );
+		}
+
+		$postcode = $this->sanitize_postcode( $_GET['postcode'] );
+		$address  = $this->get_address( $postcode );
+
+		// Test if found any postcode.
+		if ( is_null( $address ) ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid postcode.', 'woocommerce' ) ) );
+		}
+
+		// Unset ID and last_query.
+		unset( $address->ID );
+		unset( $address->last_query );
+
+		wp_send_json_success( $address );
 	}
 }
