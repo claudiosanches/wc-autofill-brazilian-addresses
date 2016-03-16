@@ -103,10 +103,10 @@ module.exports = function( grunt ) {
 			},
 			dest: {
 				files: {
-					'README.md': 'readme.txt',
-				},
-			},
-		},
+					'README.md': 'readme.txt'
+				}
+			}
+		}
 	});
 
 	// Load NPM tasks to be used here.
