@@ -2,9 +2,9 @@
 /**
  * Plugin Name: WC Brazilian Postcodes
  * Plugin URI: https://github.com/claudiosmweb/wc-brazilian-postcodes
- * Description: Completar endereço a partir do CEP
- * Author: Claudio Sanches
- * Author URI: http://claudiosmweb.com/
+ * Description: Autocomplete address by postcodes.
+ * Author: Claudio Sanches, Matheus Lopes
+ * Author URI: https://claudiosmweb.com/
  * Version: 0.0.3
  * License: GPLv2 or later
  * Text Domain: wc-brazilian-postcodes
@@ -12,7 +12,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+	exit;
 }
 
 if ( ! class_exists( 'WC_Brazilian_Postcodes' ) ) :
@@ -40,26 +40,17 @@ class WC_Brazilian_Postcodes {
 	 * Initialize the plugin public actions.
 	 */
 	private function __construct() {
-		// echo esc_url( plugins_url( 'checkout-integration.js', __FILE__ ) );
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 
 		// Checks with WooCommerce is installed.
 		if ( class_exists( 'WooCommerce' ) ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'scritps' ) );
+
+			$this->includes();
 		} else {
 			add_action( 'admin_notices', array( $this, 'woocommerce_missing_notice' ) );
 		}
-	}
-
-	/**
-	 * WC Brazilian Postcodes scripts.
-	 *
-	 * @return void
-	 */
-	public function scritps() {
-		wp_enqueue_script( 'wc-brazilian-postcodes-postmon-api-integration', esc_url( plugins_url( 'assets/js/postmon-api-integration.js', __FILE__ ) ), array( 'jquery' ), WC_Brazilian_Postcodes::VERSION, true );
-		wp_enqueue_script( 'wc-brazilian-postcodes-integration', esc_url( plugins_url( 'assets/js/checkout-integration.js', __FILE__ ) ), array( 'jquery' ), WC_Brazilian_Postcodes::VERSION, true );
 	}
 
 	/**
@@ -77,22 +68,34 @@ class WC_Brazilian_Postcodes {
 	}
 
 	/**
+	 * Includes.
+	 */
+	private function includes() {
+
+	}
+
+	/**
+	 * WC Brazilian Postcodes scripts.
+	 */
+	public function scritps() {
+		wp_enqueue_script( 'wc-brazilian-postcodes-postmon-api-integration', esc_url( plugins_url( 'assets/js/postmon-api-integration.js', __FILE__ ) ), array( 'jquery' ), WC_Brazilian_Postcodes::VERSION, true );
+		wp_enqueue_script( 'wc-brazilian-postcodes-integration', esc_url( plugins_url( 'assets/js/checkout-integration.js', __FILE__ ) ), array( 'jquery' ), WC_Brazilian_Postcodes::VERSION, true );
+	}
+
+	/**
 	 * Load the plugin text domain for translation.
 	 */
 	public function load_plugin_textdomain() {
-		$locale = apply_filters( 'plugin_locale', get_locale(), 'wc-brazilian-postcodes' );
-
-		load_textdomain( 'wc-brazilian-postcodes', trailingslashit( WP_LANG_DIR ) . 'wc-brazilian-postcodes/wc-brazilian-postcodes-' . $locale . '.mo' );
 		load_plugin_textdomain( 'wc-brazilian-postcodes', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 	/**
 	 * WooCommerce fallback notice.
 	 *
-	 * @return  string
+	 * @return string
 	 */
 	public function woocommerce_missing_notice() {
-		echo '<div class="error"><p>' . sprintf( __( 'WC Brazilian Postcodes depends of %s to work!', 'wc-brazilian-postcodes' ), '<a href="http://wordpress.org/plugins/woocommerce/">' . __( 'WooCommerce', 'wc-brazilian-postcodes' ) . '</a>' ) . '</p></div>';
+		include 'includes/admin/views/html-notice-missing-woocommerce.php';
 	}
 }
 
