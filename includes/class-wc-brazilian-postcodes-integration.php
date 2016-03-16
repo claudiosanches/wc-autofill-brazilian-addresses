@@ -46,7 +46,9 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 		// Actions.
 		add_action( 'woocommerce_update_options_integration_' . $this->id, array( $this, 'process_admin_options' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 		add_action( 'wc_ajax_brazilian_autocomplete_address', array( $this, 'ajax_autocomplete' ) );
+		add_action( 'wp_ajax_brazilian_postcodes_empty_database', array( $this, 'ajax_empty_database' ) );
 	}
 
 	/**
@@ -54,6 +56,12 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 	 */
 	public function init_form_fields() {
 		$this->form_fields = array(
+			'empty_database' => array(
+				'title'       => __( 'Empty database', 'woocommerce-pagseguro' ),
+				'type'        => 'button',
+				'label'       => __( 'Empty database', 'wc-brazilian-postcodes' ),
+				'description' => __( 'Delete all the saved postcodes in the database, use this option if you have issues with outdated postcodes.', 'wc-brazilian-postcodes' ),
+			),
 			'debug' => array(
 				'title'       => __( 'Debug Log', 'wc-brazilian-postcodes' ),
 				'type'        => 'checkbox',
@@ -62,6 +70,44 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 				'description' => sprintf( __( 'Log events such as API requests, you can check this log in %s.', 'wc-brazilian-postcodes' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wc-status&tab=logs&log_file=' . esc_attr( $this->id ) . '-' . sanitize_file_name( wp_hash( $this->id ) ) . '.log' ) ) . '">' . __( 'System Status &gt; Logs', 'wc-brazilian-postcodes' ) . '</a>' ),
 			),
 		);
+	}
+
+	/**
+	 * Generate Button Input HTML.
+	 *
+	 * @param string $key
+	 * @param array $data
+	 * @return string
+	 */
+	public function generate_button_html( $key, $data ) {
+		$field_key = $this->get_field_key( $key );
+		$defaults  = array(
+			'title'       => '',
+			'label'       => '',
+			'desc_tip'    => false,
+			'description' => '',
+		);
+
+		$data = wp_parse_args( $data, $defaults );
+
+		ob_start();
+		?>
+		<tr valign="top">
+			<th scope="row" class="titledesc">
+				<label for="<?php echo esc_attr( $field_key ); ?>"><?php echo wp_kses_post( $data['title'] ); ?></label>
+				<?php echo $this->get_tooltip_html( $data ); ?>
+			</th>
+			<td class="forminp">
+				<fieldset>
+					<legend class="screen-reader-text"><span><?php echo wp_kses_post( $data['title'] ); ?></span></legend>
+					<button class="button-secondary" type="button" id="<?php echo esc_attr( $field_key ); ?>"><?php echo wp_kses_post( $data['label'] ); ?></button>
+					<?php echo $this->get_description_html( $data ); ?>
+				</fieldset>
+			</td>
+		</tr>
+		<?php
+
+		return ob_get_clean();
 	}
 
 	/**
@@ -228,11 +274,34 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 	}
 
 	/**
+	 * Admin scripts.
+	 *
+	 * @param string $hook Page slug.
+	 */
+	public function admin_scripts( $hook ) {
+		if ( 'woocommerce_page_wc-settings' === $hook && isset( $_GET['section'] ) && $this->id === strtolower( $_GET['section'] ) ) {
+			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
+			wp_enqueue_script( $this->id . '-admin', plugins_url( 'assets/js/admin' . $suffix . '.js', plugin_dir_path( __FILE__ ) ), array( 'jquery', 'jquery-blockui' ), WC_Brazilian_Postcodes::VERSION, true );
+
+			wp_localize_script(
+				$this->id . '-admin',
+				'wcBrazilianPostcodesAdminParams',
+				array(
+					'i18n_confirm_message' => __( 'Are you sure you want to delete all postcodes from the database?', 'wc-brazilian-postcodes' ),
+					'empty_database_nonce' => wp_create_nonce( 'wc_brazilian_postcodes_nonce' )
+				)
+			);
+		}
+	}
+
+	/**
 	 * Ajax autocomplete endpoint.
 	 */
 	public function ajax_autocomplete() {
 		if ( empty( $_GET['postcode'] ) ) {
-			wp_send_json_error( array( 'message' => __( 'Missing postcode paramater.', 'woocommerce' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Missing postcode paramater.', 'wc-brazilian-postcodes' ) ) );
+			exit;
 		}
 
 		$postcode = $this->sanitize_postcode( $_GET['postcode'] );
@@ -240,7 +309,8 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 
 		// Test if found any postcode.
 		if ( is_null( $address ) ) {
-			wp_send_json_error( array( 'message' => __( 'Invalid postcode.', 'woocommerce' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Invalid postcode.', 'wc-brazilian-postcodes' ) ) );
+			exit;
 		}
 
 		// Unset ID and last_query.
@@ -248,5 +318,28 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 		unset( $address->last_query );
 
 		wp_send_json_success( $address );
+	}
+
+	/**
+	 * Ajax empty database.
+	 */
+	public function ajax_empty_database() {
+		global $wpdb;
+
+		if ( ! isset( $_POST['nonce'] ) ) {
+			wp_send_json_error( array( 'message' => __( 'Missing parameters!', 'wc-brazilian-postcodes' ) ) );
+			exit;
+		}
+
+		if ( ! wp_verify_nonce( $_POST['nonce'], 'wc_brazilian_postcodes_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid nonce!', 'wc-brazilian-postcodes' ) ) );
+			exit;
+		}
+
+		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}brazillian_postcodes" );
+
+		WC_Brazilian_Postcodes_Install::create_database();
+
+		wp_send_json_success( array( 'message' => __( 'Postcode database emptied successfully!', 'wc-brazilian-postcodes' ) ) );
 	}
 }
