@@ -134,9 +134,10 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 				$this->save_address( (array) $address );
 			}
 		} else if ( strtotime( '+3 months', strtotime( $address->last_query ) ) < current_time( 'timestamp' ) ) {
-			$address = $this->fetch_address( $postcode );
+			$_address = $this->fetch_address( $postcode );
 
-			if ( ! is_null( $address ) ) {
+			if ( ! is_null( $_address ) ) {
+				$address = $_address;
 				$this->update_address( $id, (array) $address );
 			}
 		}
