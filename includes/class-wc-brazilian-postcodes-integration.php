@@ -36,7 +36,8 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 		$this->init_form_fields();
 		$this->init_settings();
 
-		$this->debug = $this->get_option( 'debug' );
+		$this->expire = $this->get_option( 'expire' );
+		$this->debug  = $this->get_option( 'debug' );
 
 		// Debug.
 		if ( 'yes' === $this->debug ) {
@@ -56,8 +57,30 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 	 */
 	public function init_form_fields() {
 		$this->form_fields = array(
+			'expire' => array(
+				'title'       => __( 'Postcode Expire', 'wc-brazilian-postcodes' ),
+				'type'        => 'select',
+				'default'     => '6',
+				'class'       => 'wc-enhanced-select',
+				'description' => __( 'Define how long postcodes were saved in the database before a new query.', 'wc-brazilian-postcodes' ),
+				'options'     => array(
+					'1'     => __( '1 month', 'wc-brazilian-postcodes' ),
+					'2'     => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 2 ),
+					'3'     => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 3 ),
+					'4'     => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 4 ),
+					'5'     => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 5 ),
+					'6'     => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 6 ),
+					'7'     => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 7 ),
+					'8'     => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 8 ),
+					'9'     => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 9 ),
+					'10'    => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 10 ),
+					'11'    => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 11 ),
+					'12'    => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 12 ),
+					'never' => __( 'Never', 'wc-brazilian-postcodes' ),
+				),
+			),
 			'empty_database' => array(
-				'title'       => __( 'Empty database', 'woocommerce-pagseguro' ),
+				'title'       => __( 'Empty Database', 'woocommerce-pagseguro' ),
 				'type'        => 'button',
 				'label'       => __( 'Empty database', 'wc-brazilian-postcodes' ),
 				'description' => __( 'Delete all the saved postcodes in the database, use this option if you have issues with outdated postcodes.', 'wc-brazilian-postcodes' ),
@@ -133,7 +156,7 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 			if ( ! is_null( $address ) ) {
 				$this->save_address( (array) $address );
 			}
-		} else if ( strtotime( '+3 months', strtotime( $address->last_query ) ) < current_time( 'timestamp' ) ) {
+		} else if ( $this->check_if_expired( $address->last_query ) ) {
 			$_address = $this->fetch_address( $postcode );
 
 			if ( ! is_null( $_address ) ) {
@@ -143,6 +166,20 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 		}
 
 		return $address;
+	}
+
+	/**
+	 * Check if postcode is expired.
+	 *
+	 * @param string $last_query
+	 * @return bool
+	 */
+	protected function check_if_expired( $last_query ) {
+		if ( 'never' !== $this->expire && strtotime( '+' . $this->expire . ' months', strtotime( $last_query ) ) < current_time( 'timestamp' ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
