@@ -20,21 +20,50 @@ jQuery( function( $ ) {
 		 * Initialize actions.
 		 */
 		init: function() {
-			// Auto complete billing address.
-			this.autocomplate( 'billing' );
-			this.autocomplateOnChange( 'billing' );
+			// Initial load.
+			this.autocomplate( 'billing', true );
 
-			// Auto complete shipping address.
-			this.autocomplate( 'shipping' );
-			this.autocomplateOnChange( 'shipping' );
+			$( '#billing_postcode' ).on( 'blur', function() {
+				wc_brazilian_postcodes.autocomplate( 'billing' );
+			});
+			$( '#shipping_postcode' ).on( 'blur', function() {
+				wc_brazilian_postcodes.autocomplate( 'shipping' );
+			});
+		},
+
+		/**
+		 * Block checkout.
+		 */
+		block: function() {
+			$( 'form.checkout, form#order_review' )
+				.addClass( 'processing' )
+				.block({
+					message: null,
+					overlayCSS: {
+					background: '#fff',
+					opacity: 0.6
+					}
+				});
+		},
+
+		/**
+		 * Unblock checkout.
+		 */
+		unblock: function() {
+			$( 'form.checkout, form#order_review' )
+				.removeClass( 'processing' )
+				.unblock();
 		},
 
 		/**
 		 * Autocomplate address.
 		 *
 		 * @param {String} field Target.
+		 * @param {Boolean} copy
 		 */
-		autocomplate: function( field ) {
+		autocomplate: function( field, copy ) {
+			copy = copy || false;
+
 			// Checks with *_postcode field exist.
 			if ( $( '#' + field + '_postcode' ).length ) {
 
@@ -46,6 +75,8 @@ jQuery( function( $ ) {
 				// Check country is BR.
 				if ( cep !== '' && 8 === cep.length && 'BR' === country && 0 === address_1.length ) {
 
+					wc_brazilian_postcodes.block();
+
 					// Gets the address.
 					$.ajax({
 						type: 'GET',
@@ -53,24 +84,17 @@ jQuery( function( $ ) {
 						dataType: 'json',
 						contentType: 'application/json',
 						success: function( address ) {
-							// Validate request.
-							if ( ! address.success ) {
-								return;
+							if ( address.success ) {
+								wc_brazilian_postcodes.fillFields( field, address.data );
+
+								if ( copy ) {
+									var newField = 'billing' === field ? 'shipping' : 'billing';
+
+									wc_brazilian_postcodes.fillFields( newField, address.data );
+								}
 							}
 
-							// Address.
-							$( '#' + field + '_address_1' ).val( address.data.address ).change();
-
-							// Neighborhood.
-							$( '#' + field + '_neighborhood' ).val( address.data.neighborhood ).change();
-
-							// City.
-							$( '#' + field + '_city' ).val( address.data.city ).change();
-
-							// State.
-							$( '#' + field + '_state option:selected' ).attr( 'selected', false ).change();
-							$( '#' + field + '_state option[value="' + address.data.state + '"]' ).attr( 'selected', 'selected' ).change();
-							$( '#' + field + '_state' ).trigger( 'liszt:updated' ).trigger( 'chosen:updated' ); // Chosen support.
+							wc_brazilian_postcodes.unblock();
 						}
 					});
 				}
@@ -78,14 +102,29 @@ jQuery( function( $ ) {
 		},
 
 		/**
-		 * Autocomplate address on field change.
+		 * Fill fields.
 		 *
-		 * @param {String} field Target.
+		 * @param {String} field
+		 * @param {Object} data
 		 */
-		autocomplateOnChange: function( field ) {
-			$( '#' + field + '_postcode' ).on( 'blur', function() {
-				wc_brazilian_postcodes.autocomplate( field );
-			});
+		fillFields: function( field, data ) {
+			// Address.
+			$( '#' + field + '_address_1' ).val( data.address ).change();
+
+			// Neighborhood.
+			if ( $( '#' + field + '_neighborhood' ).length ) {
+				$( '#' + field + '_neighborhood' ).val( data.neighborhood ).change();
+			} else {
+				$( '#' + field + '_address_2' ).val( data.neighborhood ).change();
+			}
+
+			// City.
+			$( '#' + field + '_city' ).val( data.city ).change();
+
+			// State.
+			$( '#' + field + '_state option:selected' ).attr( 'selected', false ).change();
+			$( '#' + field + '_state option[value="' + data.state + '"]' ).attr( 'selected', 'selected' ).change();
+			$( '#' + field + '_state' ).trigger( 'liszt:updated' ).trigger( 'chosen:updated' ); // Chosen support.
 		}
 	};
 

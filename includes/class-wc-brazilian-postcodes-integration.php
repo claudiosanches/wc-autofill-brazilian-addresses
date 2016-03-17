@@ -299,7 +299,7 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 		if ( is_checkout() || is_account_page() ) {
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-			wp_enqueue_script( $this->id, plugins_url( 'assets/js/autocomplete-address' . $suffix . '.js', plugin_dir_path( __FILE__ ) ), array( 'jquery' ), WC_Brazilian_Postcodes::VERSION, true );
+			wp_enqueue_script( $this->id, plugins_url( 'assets/js/autocomplete-address' . $suffix . '.js', plugin_dir_path( __FILE__ ) ), array( 'jquery', 'jquery-blockui' ), WC_Brazilian_Postcodes::VERSION, true );
 
 			wp_localize_script(
 				$this->id,
