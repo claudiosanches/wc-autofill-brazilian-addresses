@@ -129,7 +129,7 @@ class WC_Autofill_Brazilian_Addresses {
 	public function plugin_action_links( $links ) {
 		$plugin_links = array();
 
-		$plugin_links[] = '<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=integration&section=brazilian-postcodes' ) ) . '">' . __( 'Settings', 'wc-autofill-brazilian-addresses' ) . '</a>';
+		$plugin_links[] = '<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=integration&section=brazilian-postcodes-database' ) ) . '">' . __( 'Settings', 'wc-autofill-brazilian-addresses' ) . '</a>';
 
 		return array_merge( $plugin_links, $links );
 	}

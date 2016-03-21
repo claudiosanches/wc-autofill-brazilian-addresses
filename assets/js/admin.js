@@ -12,7 +12,7 @@ jQuery( function( $ ) {
 		 * Initialize actions.
 		 */
 		init: function() {
-			$( document.body ).on( 'click', '#woocommerce_brazilian-postcodes_empty_database', this.empty_database );
+			$( document.body ).on( 'click', '#woocommerce_brazilian-postcodes-database_empty_database', this.empty_database );
 		},
 
 		/**

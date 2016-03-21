@@ -28,9 +28,9 @@ class WC_Autofill_Brazilian_Addresses_Integration extends WC_Integration {
 	 * Initialize the integration.
 	 */
 	public function __construct() {
-		$this->id                 = 'brazilian-postcodes';
-		$this->method_title       = __( 'Brazilian Postcodes', 'wc-autofill-brazilian-addresses' );
-		$this->method_description = __( '', 'wc-autofill-brazilian-addresses' );
+		$this->id                 = 'brazilian-postcodes-database';
+		$this->method_title       = __( 'Brazilian Postcodes Database', 'wc-autofill-brazilian-addresses' );
+		$this->method_description = __( 'This integration allows you to manage a database created to store postcodes.', 'wc-autofill-brazilian-addresses' );
 
 		// Load the settings.
 		$this->init_form_fields();
