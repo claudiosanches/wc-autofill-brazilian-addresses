@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WooCommerce Autofill Brazilian Addresses
  * Plugin URI: https://github.com/claudiosmweb/wc-autofill-brazilian-addresses
- * Description: Autocomplete address with postcodes.
+ * Description: Autofill brazilian addresses based on CEPs.
  * Author: Claudio Sanches, Matheus Lopes
  * Author URI: https://claudiosmweb.com/
  * Version: 0.0.3

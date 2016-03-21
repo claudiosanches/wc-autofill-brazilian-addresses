@@ -2,7 +2,7 @@
   "name": "wc-autofill-brazilian-addresses",
   "version": "1.0.0",
   "title": "WooCommerce Autofill Brazilian Addresses",
-  "description": "Autocomplete address with postcodes",
+  "description": "Autofill brazilian addresses based on CEPs",
   "homepage": "https://github.com/claudiosmweb/wc-autofill-brazilian-addresses",
   "main": "Gruntfile.js",
   "repository": {
