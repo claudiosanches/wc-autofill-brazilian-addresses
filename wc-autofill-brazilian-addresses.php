@@ -1,13 +1,13 @@
 <?php
 /**
- * Plugin Name: WooCommerce Brazilian Postcodes
- * Plugin URI: https://github.com/claudiosmweb/wc-brazilian-postcodes
+ * Plugin Name: WooCommerce Autofill Brazilian Addresses
+ * Plugin URI: https://github.com/claudiosmweb/wc-autofill-brazilian-addresses
  * Description: Autocomplete address with postcodes.
  * Author: Claudio Sanches, Matheus Lopes
  * Author URI: https://claudiosmweb.com/
  * Version: 0.0.3
  * License: GPLv2 or later
- * Text Domain: wc-brazilian-postcodes
+ * Text Domain: wc-autofill-brazilian-addresses
  * Domain Path: /languages/
  */
 
@@ -15,12 +15,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'WC_Brazilian_Postcodes' ) ) :
+if ( ! class_exists( 'WC_Autofill_Brazilian_Addresses' ) ) :
 
 /**
  * WC Brazilian Postcodes main class.
  */
-class WC_Brazilian_Postcodes {
+class WC_Autofill_Brazilian_Addresses {
 
 	/**
 	 * Plugin version.
@@ -80,14 +80,14 @@ class WC_Brazilian_Postcodes {
 	 * Includes.
 	 */
 	private function includes() {
-		include_once 'includes/class-wc-brazilian-postcodes-integration.php';
+		include_once 'includes/class-wc-autofill-brazilian-addresses-integration.php';
 	}
 
 	/**
 	 * Load the plugin text domain for translation.
 	 */
 	public function load_plugin_textdomain() {
-		load_plugin_textdomain( 'wc-brazilian-postcodes', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'wc-autofill-brazilian-addresses', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 	/**
@@ -115,7 +115,7 @@ class WC_Brazilian_Postcodes {
 	 * @return array
 	 */
 	public function add_integration( $integrations ) {
-		$integrations[] = 'WC_Brazilian_Postcodes_Integration';
+		$integrations[] = 'WC_Autofill_Brazilian_Addresses_Integration';
 
 		return $integrations;
 	}
@@ -129,17 +129,17 @@ class WC_Brazilian_Postcodes {
 	public function plugin_action_links( $links ) {
 		$plugin_links = array();
 
-		$plugin_links[] = '<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=integration&section=brazilian-postcodes' ) ) . '">' . __( 'Settings', 'wc-brazilian-postcodes' ) . '</a>';
+		$plugin_links[] = '<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=integration&section=brazilian-postcodes' ) ) . '">' . __( 'Settings', 'wc-autofill-brazilian-addresses' ) . '</a>';
 
 		return array_merge( $plugin_links, $links );
 	}
 }
 
 // Install plugin.
-include_once 'includes/class-wc-brazilian-postcodes-install.php';
-register_activation_hook( __FILE__, array( 'WC_Brazilian_Postcodes_Install', 'create_database' ) );
+include_once 'includes/class-wc-autofill-brazilian-addresses-install.php';
+register_activation_hook( __FILE__, array( 'WC_Autofill_Brazilian_Addresses_Install', 'create_database' ) );
 
 // Initialize plugin.
-add_action( 'plugins_loaded', array( 'WC_Brazilian_Postcodes', 'get_instance' ) );
+add_action( 'plugins_loaded', array( 'WC_Autofill_Brazilian_Addresses', 'get_instance' ) );
 
 endif;

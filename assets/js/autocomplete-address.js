@@ -1,6 +1,6 @@
-/* global wcBrazilianPostcodesParams */
+/* global wcabaParams */
 /*!
- * WooCommerce Brazilian Postcodes 2016.
+ * WooCommerce Autofill Brazilian Addresses 2016.
  *
  * Autocomplete address with postcodes.
  *
@@ -80,7 +80,7 @@ jQuery( function( $ ) {
 					// Gets the address.
 					$.ajax({
 						type: 'GET',
-						url: wcBrazilianPostcodesParams.url + '&postcode=' + cep,
+						url: wcabaParams.url + '&postcode=' + cep,
 						dataType: 'json',
 						contentType: 'application/json',
 						success: function( address ) {

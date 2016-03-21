@@ -1,13 +1,13 @@
 {
-  "name": "wc-brazilian-postcodes",
+  "name": "wc-autofill-brazilian-addresses",
   "version": "1.0.0",
-  "title": "WooCommerce Brazilian Postcodes",
+  "title": "WooCommerce Autofill Brazilian Addresses",
   "description": "Autocomplete address with postcodes",
-  "homepage": "https://github.com/claudiosmweb/wc-brazilian-postcodes",
+  "homepage": "https://github.com/claudiosmweb/wc-autofill-brazilian-addresses",
   "main": "Gruntfile.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/claudiosmweb/wc-brazilian-postcodes.git"
+    "url": "https://github.com/claudiosmweb/wc-autofill-brazilian-addresses.git"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

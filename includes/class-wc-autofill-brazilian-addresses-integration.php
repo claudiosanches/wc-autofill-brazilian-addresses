@@ -1,8 +1,8 @@
 <?php
 /**
- * WooCommerce Brazilian Postcodes Integration class
+ * WooCommerce Autofill Brazilian Addresses Integration class
  *
- * @package WC_Brazilian_Postcodes/Classes/Integration
+ * @package WC_Autofill_Brazilian_Addresses/Classes/Integration
  * @version 1.0.0
  */
 
@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WC_Brazilian_Postcodes_Integration extends WC_Integration {
+class WC_Autofill_Brazilian_Addresses_Integration extends WC_Integration {
 
 	/**
 	 * Table name.
@@ -29,8 +29,8 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 	 */
 	public function __construct() {
 		$this->id                 = 'brazilian-postcodes';
-		$this->method_title       = __( 'Brazilian Postcodes', 'wc-brazilian-postcodes' );
-		$this->method_description = __( '', 'wc-brazilian-postcodes' );
+		$this->method_title       = __( 'Brazilian Postcodes', 'wc-autofill-brazilian-addresses' );
+		$this->method_description = __( '', 'wc-autofill-brazilian-addresses' );
 
 		// Load the settings.
 		$this->init_form_fields();
@@ -58,39 +58,39 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 	public function init_form_fields() {
 		$this->form_fields = array(
 			'expire' => array(
-				'title'       => __( 'Postcode Expire', 'wc-brazilian-postcodes' ),
+				'title'       => __( 'Postcode Expire', 'wc-autofill-brazilian-addresses' ),
 				'type'        => 'select',
 				'default'     => '6',
 				'class'       => 'wc-enhanced-select',
-				'description' => __( 'Define how long postcodes were saved in the database before a new query.', 'wc-brazilian-postcodes' ),
+				'description' => __( 'Define how long postcodes were saved in the database before a new query.', 'wc-autofill-brazilian-addresses' ),
 				'options'     => array(
-					'1'     => __( '1 month', 'wc-brazilian-postcodes' ),
-					'2'     => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 2 ),
-					'3'     => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 3 ),
-					'4'     => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 4 ),
-					'5'     => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 5 ),
-					'6'     => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 6 ),
-					'7'     => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 7 ),
-					'8'     => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 8 ),
-					'9'     => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 9 ),
-					'10'    => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 10 ),
-					'11'    => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 11 ),
-					'12'    => sprintf( __( '%d month', 'wc-brazilian-postcodes' ), 12 ),
-					'never' => __( 'Never', 'wc-brazilian-postcodes' ),
+					'1'     => __( '1 month', 'wc-autofill-brazilian-addresses' ),
+					'2'     => sprintf( __( '%d month', 'wc-autofill-brazilian-addresses' ), 2 ),
+					'3'     => sprintf( __( '%d month', 'wc-autofill-brazilian-addresses' ), 3 ),
+					'4'     => sprintf( __( '%d month', 'wc-autofill-brazilian-addresses' ), 4 ),
+					'5'     => sprintf( __( '%d month', 'wc-autofill-brazilian-addresses' ), 5 ),
+					'6'     => sprintf( __( '%d month', 'wc-autofill-brazilian-addresses' ), 6 ),
+					'7'     => sprintf( __( '%d month', 'wc-autofill-brazilian-addresses' ), 7 ),
+					'8'     => sprintf( __( '%d month', 'wc-autofill-brazilian-addresses' ), 8 ),
+					'9'     => sprintf( __( '%d month', 'wc-autofill-brazilian-addresses' ), 9 ),
+					'10'    => sprintf( __( '%d month', 'wc-autofill-brazilian-addresses' ), 10 ),
+					'11'    => sprintf( __( '%d month', 'wc-autofill-brazilian-addresses' ), 11 ),
+					'12'    => sprintf( __( '%d month', 'wc-autofill-brazilian-addresses' ), 12 ),
+					'never' => __( 'Never', 'wc-autofill-brazilian-addresses' ),
 				),
 			),
 			'empty_database' => array(
 				'title'       => __( 'Empty Database', 'woocommerce-pagseguro' ),
 				'type'        => 'button',
-				'label'       => __( 'Empty database', 'wc-brazilian-postcodes' ),
-				'description' => __( 'Delete all the saved postcodes in the database, use this option if you have issues with outdated postcodes.', 'wc-brazilian-postcodes' ),
+				'label'       => __( 'Empty database', 'wc-autofill-brazilian-addresses' ),
+				'description' => __( 'Delete all the saved postcodes in the database, use this option if you have issues with outdated postcodes.', 'wc-autofill-brazilian-addresses' ),
 			),
 			'debug' => array(
-				'title'       => __( 'Debug Log', 'wc-brazilian-postcodes' ),
+				'title'       => __( 'Debug Log', 'wc-autofill-brazilian-addresses' ),
 				'type'        => 'checkbox',
-				'label'       => __( 'Enable logging', 'wc-brazilian-postcodes' ),
+				'label'       => __( 'Enable logging', 'wc-autofill-brazilian-addresses' ),
 				'default'     => 'no',
-				'description' => sprintf( __( 'Log events such as API requests, you can check this log in %s.', 'wc-brazilian-postcodes' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wc-status&tab=logs&log_file=' . esc_attr( $this->id ) . '-' . sanitize_file_name( wp_hash( $this->id ) ) . '.log' ) ) . '">' . __( 'System Status &gt; Logs', 'wc-brazilian-postcodes' ) . '</a>' ),
+				'description' => sprintf( __( 'Log events such as API requests, you can check this log in %s.', 'wc-autofill-brazilian-addresses' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wc-status&tab=logs&log_file=' . esc_attr( $this->id ) . '-' . sanitize_file_name( wp_hash( $this->id ) ) . '.log' ) ) . '">' . __( 'System Status &gt; Logs', 'wc-autofill-brazilian-addresses' ) . '</a>' ),
 			),
 		);
 	}
@@ -299,11 +299,11 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 		if ( is_checkout() || is_account_page() ) {
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-			wp_enqueue_script( $this->id, plugins_url( 'assets/js/autocomplete-address' . $suffix . '.js', plugin_dir_path( __FILE__ ) ), array( 'jquery', 'jquery-blockui' ), WC_Brazilian_Postcodes::VERSION, true );
+			wp_enqueue_script( $this->id, plugins_url( 'assets/js/autocomplete-address' . $suffix . '.js', plugin_dir_path( __FILE__ ) ), array( 'jquery', 'jquery-blockui' ), WC_Autofill_Brazilian_Addresses::VERSION, true );
 
 			wp_localize_script(
 				$this->id,
-				'wcBrazilianPostcodesParams',
+				'wcabaParams',
 				array(
 					'url' => WC_AJAX::get_endpoint( 'brazilian_autocomplete_address' ),
 				)
@@ -320,13 +320,13 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 		if ( 'woocommerce_page_wc-settings' === $hook && isset( $_GET['section'] ) && $this->id === strtolower( $_GET['section'] ) ) {
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-			wp_enqueue_script( $this->id . '-admin', plugins_url( 'assets/js/admin' . $suffix . '.js', plugin_dir_path( __FILE__ ) ), array( 'jquery', 'jquery-blockui' ), WC_Brazilian_Postcodes::VERSION, true );
+			wp_enqueue_script( $this->id . '-admin', plugins_url( 'assets/js/admin' . $suffix . '.js', plugin_dir_path( __FILE__ ) ), array( 'jquery', 'jquery-blockui' ), WC_Autofill_Brazilian_Addresses::VERSION, true );
 
 			wp_localize_script(
 				$this->id . '-admin',
-				'wcBrazilianPostcodesAdminParams',
+				'wcabaAdminParams',
 				array(
-					'i18n_confirm_message' => __( 'Are you sure you want to delete all postcodes from the database?', 'wc-brazilian-postcodes' ),
+					'i18n_confirm_message' => __( 'Are you sure you want to delete all postcodes from the database?', 'wc-autofill-brazilian-addresses' ),
 					'empty_database_nonce' => wp_create_nonce( 'wc_brazilian_postcodes_nonce' )
 				)
 			);
@@ -338,7 +338,7 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 	 */
 	public function ajax_autocomplete() {
 		if ( empty( $_GET['postcode'] ) ) {
-			wp_send_json_error( array( 'message' => __( 'Missing postcode paramater.', 'wc-brazilian-postcodes' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Missing postcode paramater.', 'wc-autofill-brazilian-addresses' ) ) );
 			exit;
 		}
 
@@ -347,7 +347,7 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 
 		// Test if found any postcode.
 		if ( is_null( $address ) ) {
-			wp_send_json_error( array( 'message' => __( 'Invalid postcode.', 'wc-brazilian-postcodes' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Invalid postcode.', 'wc-autofill-brazilian-addresses' ) ) );
 			exit;
 		}
 
@@ -365,19 +365,19 @@ class WC_Brazilian_Postcodes_Integration extends WC_Integration {
 		global $wpdb;
 
 		if ( ! isset( $_POST['nonce'] ) ) {
-			wp_send_json_error( array( 'message' => __( 'Missing parameters!', 'wc-brazilian-postcodes' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Missing parameters!', 'wc-autofill-brazilian-addresses' ) ) );
 			exit;
 		}
 
 		if ( ! wp_verify_nonce( $_POST['nonce'], 'wc_brazilian_postcodes_nonce' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Invalid nonce!', 'wc-brazilian-postcodes' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Invalid nonce!', 'wc-autofill-brazilian-addresses' ) ) );
 			exit;
 		}
 
 		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}brazillian_postcodes" );
 
-		WC_Brazilian_Postcodes_Install::create_database();
+		WC_Autofill_Brazilian_Addresses_Install::create_database();
 
-		wp_send_json_success( array( 'message' => __( 'Postcode database emptied successfully!', 'wc-brazilian-postcodes' ) ) );
+		wp_send_json_success( array( 'message' => __( 'Postcode database emptied successfully!', 'wc-autofill-brazilian-addresses' ) ) );
 	}
 }

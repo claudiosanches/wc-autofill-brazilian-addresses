@@ -1,8 +1,8 @@
 <?php
 /**
- * WooCommerce Brazilian Postcodes Install class
+ * WooCommerce Autofill Brazilian Addresses Install class
  *
- * @package WC_Brazilian_Postcodes/Classes/Installer
+ * @package WC_Autofill_Brazilian_Addresses/Classes/Installer
  * @version 1.0.0
  */
 
@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WC_Brazilian_Postcodes_Install {
+class WC_Autofill_Brazilian_Addresses_Install {
 
 	/**
 	 * Create database.

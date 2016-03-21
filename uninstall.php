@@ -1,8 +1,8 @@
 <?php
 /**
- * WooCommerce Brazilian Postcodes Uninstall
+ * WooCommerce Autofill Brazilian Addresses Uninstall
  *
- * @package WC_Brazilian_Postcodes/Uninstaller
+ * @package WC_Autofill_Brazilian_Addresses/Uninstaller
  * @version 1.0.0
  */
 

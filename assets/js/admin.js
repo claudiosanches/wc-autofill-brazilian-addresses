@@ -1,4 +1,4 @@
-/* global ajaxurl, wcBrazilianPostcodesAdminParams */
+/* global ajaxurl, wcabaAdminParams */
 jQuery( function( $ ) {
 
 	/**
@@ -21,7 +21,7 @@ jQuery( function( $ ) {
 		 * @return {String}
 		 */
 		empty_database: function() {
-			if ( ! window.confirm( wcBrazilianPostcodesAdminParams.i18n_confirm_message ) ) {
+			if ( ! window.confirm( wcabaAdminParams.i18n_confirm_message ) ) {
 				return;
 			}
 
@@ -38,7 +38,7 @@ jQuery( function( $ ) {
 				url: ajaxurl,
 				data: {
 					action: 'brazilian_postcodes_empty_database',
-					nonce: wcBrazilianPostcodesAdminParams.empty_database_nonce
+					nonce: wcabaAdminParams.empty_database_nonce
 				},
 				success: function( response ) {
 					/*jshint devel: true */

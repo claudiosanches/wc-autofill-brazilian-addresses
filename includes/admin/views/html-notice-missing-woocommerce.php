@@ -2,7 +2,7 @@
 /**
  * Missing WooCommerce notice.
  *
- * @package WC_Brazilian_Postcodes/Admin/Notices
+ * @package WC_Autofill_Brazilian_Addresses/Admin/Notices
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -19,10 +19,10 @@ if ( function_exists( 'get_plugins' ) ) {
 ?>
 
 <div class="error">
-	<p><strong><?php esc_html_e( 'WooCommerce Brazilian Postcodes', 'wc-brazilian-postcodes' ); ?></strong> <?php esc_html_e( 'depends on the last version of WooCommerce to work!', 'wc-brazilian-postcodes' ); ?></p>
+	<p><strong><?php esc_html_e( 'WooCommerce Autofill Brazilian Addresses', 'wc-autofill-brazilian-addresses' ); ?></strong> <?php esc_html_e( 'depends on the last version of WooCommerce to work!', 'wc-autofill-brazilian-addresses' ); ?></p>
 
 	<?php if ( $is_installed && current_user_can( 'install_plugins' ) ) : ?>
-		<p><a href="<?php echo esc_url( wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=woocommerce/woocommerce.php&plugin_status=active' ), 'activate-plugin_woocommerce/woocommerce.php' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Active WooCommerce', 'wc-brazilian-postcodes' ); ?></a></p>
+		<p><a href="<?php echo esc_url( wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=woocommerce/woocommerce.php&plugin_status=active' ), 'activate-plugin_woocommerce/woocommerce.php' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Active WooCommerce', 'wc-autofill-brazilian-addresses' ); ?></a></p>
 	<?php else :
 		if ( current_user_can( 'install_plugins' ) ) {
 			$url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=woocommerce' ), 'install-plugin_woocommerce' );
@@ -30,7 +30,7 @@ if ( function_exists( 'get_plugins' ) ) {
 			$url = 'http://wordpress.org/plugins/woocommerce/';
 		}
 	?>
-		<p><a href="<?php echo esc_url( $url ); ?>" class="button button-primary"><?php esc_html_e( 'Install WooCommerce', 'wc-brazilian-postcodes' ); ?></a></p>
+		<p><a href="<?php echo esc_url( $url ); ?>" class="button button-primary"><?php esc_html_e( 'Install WooCommerce', 'wc-autofill-brazilian-addresses' ); ?></a></p>
 	<?php endif; ?>
 </div>
 
